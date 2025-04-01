@@ -70,12 +70,6 @@ export default function Home() {
         <Card className="p-6">
           <h2 className="text-xl font-bold mb-4">Quick Actions</h2>
           <div className="grid gap-2">
-            <Button asChild className="justify-start">
-              <Link href="/maintenance/new">
-                <FileText className="mr-2 h-4 w-4" />
-                Create Maintenance Request
-              </Link>
-            </Button>
             <Button asChild variant="outline" className="justify-start">
               <Link href="/meetings">
                 <Calendar className="mr-2 h-4 w-4" />
@@ -85,7 +79,7 @@ export default function Home() {
             <Button asChild variant="outline" className="justify-start">
               <Link href="/contact">
                 <Mail className="mr-2 h-4 w-4" />
-                Contact Management
+                Create Maintenance Request
               </Link>
             </Button>
           </div>

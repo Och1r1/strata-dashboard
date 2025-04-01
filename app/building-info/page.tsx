@@ -120,14 +120,6 @@ export default function BuildingInfoPage() {
                 </div>
               ))}
             </div>
-
-            <Separator className="my-4" />
-
-            <div className="flex justify-end">
-              <Button variant="outline" size="sm">
-                View Floor Plans
-              </Button>
-            </div>
           </CardContent>
         </Card>
 
@@ -145,14 +137,6 @@ export default function BuildingInfoPage() {
                   <span className="text-sm">{detail.value}</span>
                 </div>
               ))}
-            </div>
-
-            <Separator className="my-4" />
-
-            <div className="flex justify-end">
-              <Button variant="outline" size="sm">
-                Contact Directory
-              </Button>
             </div>
           </CardContent>
         </Card>
@@ -172,14 +156,6 @@ export default function BuildingInfoPage() {
                 </div>
               ))}
             </div>
-
-            <Separator className="my-4" />
-
-            <div className="flex justify-end">
-              <Button variant="outline" size="sm">
-                Financial Reports
-              </Button>
-            </div>
           </CardContent>
         </Card>
 
@@ -190,12 +166,16 @@ export default function BuildingInfoPage() {
           </CardHeader>
           <CardContent>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              <Button variant="outline" className="justify-start h-auto py-4 px-4">
-                <div className="flex flex-col items-start">
-                  <span className="font-medium">Strata Plan</span>
-                  <span className="text-xs text-muted-foreground">SP12345.pdf</span>
-                </div>
-              </Button>
+            <Button variant="outline" className="justify-start h-auto py-4 px-4">
+              <a 
+                href="/strata_plan.pdf" 
+                download="strata_plan.pdf" 
+                className="flex flex-col items-start"
+              >
+                <span className="font-medium">Insurance Certificate</span>
+                <span className="text-xs text-muted-foreground">Insurance_2025.pdf</span>
+              </a>
+            </Button>
               <Button variant="outline" className="justify-start h-auto py-4 px-4">
                 <div className="flex flex-col items-start">
                   <span className="font-medium">By-Laws</span>
