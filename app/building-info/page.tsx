@@ -172,40 +172,30 @@ export default function BuildingInfoPage() {
                 download="strata_plan.pdf" 
                 className="flex flex-col items-start"
               >
-                <span className="font-medium">Insurance Certificate</span>
-                <span className="text-xs text-muted-foreground">Insurance_2025.pdf</span>
+                <span className="font-medium">Strata Plan</span>
+                <span className="text-xs text-muted-foreground">strata_plan.pdf</span>
               </a>
             </Button>
+            <Button variant="outline" className="justify-start h-auto py-4 px-4">
+                <a 
+                  href="/strata_living.pdf" 
+                  download="strata_living.pdf" 
+                  className="flex flex-col items-start"
+                >
+                  <span className="font-medium">Strata Living</span>
+                  <span className="text-xs text-muted-foreground">strata_living.pdf</span>
+                </a>
+            </Button>
               <Button variant="outline" className="justify-start h-auto py-4 px-4">
-                <div className="flex flex-col items-start">
-                  <span className="font-medium">By-Laws</span>
-                  <span className="text-xs text-muted-foreground">HorizonApts_ByLaws.pdf</span>
-                </div>
-              </Button>
-              <Button variant="outline" className="justify-start h-auto py-4 px-4">
-                <div className="flex flex-col items-start">
-                  <span className="font-medium">Annual Report 2024</span>
-                  <span className="text-xs text-muted-foreground">AnnualReport_2024.pdf</span>
-                </div>
-              </Button>
-              <Button variant="outline" className="justify-start h-auto py-4 px-4">
-                <div className="flex flex-col items-start">
-                  <span className="font-medium">Insurance Certificate</span>
-                  <span className="text-xs text-muted-foreground">Insurance_2025.pdf</span>
-                </div>
-              </Button>
-              <Button variant="outline" className="justify-start h-auto py-4 px-4">
-                <div className="flex flex-col items-start">
-                  <span className="font-medium">Maintenance Schedule</span>
-                  <span className="text-xs text-muted-foreground">Maintenance_Schedule.pdf</span>
-                </div>
-              </Button>
-              <Button variant="outline" className="justify-start h-auto py-4 px-4">
-                <div className="flex flex-col items-start">
-                  <span className="font-medium">Fire Safety Compliance</span>
-                  <span className="text-xs text-muted-foreground">FireSafety_2025.pdf</span>
-                </div>
-              </Button>
+                <a 
+                  href="/annual_report.pdf" 
+                  download="annual_report.pdf" 
+                  className="flex flex-col items-start"
+                >
+                  <span className="font-medium">Annual Report</span>
+                  <span className="text-xs text-muted-foreground">annual_report.pdf</span>
+                </a>
+            </Button>
             </div>
           </CardContent>
         </Card>

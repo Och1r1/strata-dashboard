@@ -9,7 +9,7 @@ export const issuesTable = sqliteTable("issues", {
   priority: text("priority").notNull(),
   contactName: text("contact_name").notNull(),
   contactEmail: text("contact_email"),
-  created_at: text("created_at"),
+  created_at: text('created_at').notNull().default(sql`CURRENT_TIMESTAMP`),
 });
 
 
