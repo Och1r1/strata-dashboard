@@ -3,7 +3,7 @@ import { issuesTable } from '@/db/schema'; // Importing the schema definition
 import { NextResponse } from 'next/server';
 import { eq } from 'drizzle-orm';
 
-
+export const dynamic = 'force-dynamic';
 export async function GET(req: Request) {
   try {
     // Fetching the issues from the database
