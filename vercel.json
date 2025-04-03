@@ -6,11 +6,10 @@
         "use": "@vercel/next"
       }
     ],
-    "regions": ["syd1"],
+    "regions": ["syd1"], 
     "functions": {
       "api/**/*.js": {
-        "runtime": "nodejs18.x",
-        "regions": ["syd1"]
+        "runtime": "nodejs18.x"
       }
     },
     "routes": [
@@ -34,5 +33,4 @@
         ]
       }
     ]
-  }
-  
+}
