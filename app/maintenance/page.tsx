@@ -43,13 +43,16 @@ export default function MaintenancePage() {
         setLoading(false);
       }
     };
-  
+
     fetchRequests();
   }, []);
-  
 
   const handleNewRequest = () => {
     router.push("/contact");
+  };
+
+  const handleDeleteRequest = (id: string) => {
+    setRequests((prevRequests) => prevRequests.filter((req) => req.id !== id));
   };
 
   if (loading) return <p>Loading...</p>;
@@ -74,7 +77,11 @@ export default function MaintenancePage() {
 
         <TabsContent value="all" className="space-y-6 mt-6">
           {requests.map((request) => (
-            <MaintenanceRequestCard key={request.id} request={request} />
+            <MaintenanceRequestCard
+              key={request.id}
+              request={request}
+              onDelete={handleDeleteRequest}
+            />
           ))}
         </TabsContent>
       </Tabs>
@@ -82,8 +89,30 @@ export default function MaintenancePage() {
   );
 }
 
-function MaintenanceRequestCard({ request }: { request: MaintenanceRequest }) {
+function MaintenanceRequestCard({ request, onDelete }: { request: MaintenanceRequest; onDelete: (id: string) => void }) {
   const formattedDate = new Date(request.created_at).toLocaleDateString();
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    try {
+      const response = await fetch(`/api/submit-issue`, {
+        method: "DELETE",
+        body: JSON.stringify({ id: request.id }),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response.ok) {
+        onDelete(request.id);
+      } else {
+        console.error("Failed to delete request");
+      }
+    } catch (error) {
+      console.error("Error deleting request:", error);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   return (
     <Card>
@@ -117,6 +146,11 @@ function MaintenanceRequestCard({ request }: { request: MaintenanceRequest }) {
               </div>
             )}
           </div>
+        </div>
+        <div className="flex justify-end mt-4">
+          <Button onClick={handleDelete} disabled={isDeleting} variant="destructive">
+            {isDeleting ? "Deleting..." : "Delete"}
+          </Button>
         </div>
       </CardContent>
     </Card>

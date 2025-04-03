@@ -1,6 +1,8 @@
 import { db } from '@/db'; // Importing the database connection
 import { issuesTable } from '@/db/schema'; // Importing the schema definition
 import { NextResponse } from 'next/server';
+import { eq } from 'drizzle-orm';
+
 
 export async function GET(req: Request) {
   try {
@@ -46,6 +48,29 @@ export async function POST(req: Request) {
     console.error('Error submitting issue:', error);
     return NextResponse.json(
       { message: 'Failed to submit issue' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(req: Request) {
+  try {
+    const { id } = await req.json(); // Extracting ID from request body
+
+    if (!id) {
+      return NextResponse.json({ message: 'ID is required' }, { status: 400 });
+    }
+
+    // Delete the issue from the database
+    await db.delete(issuesTable).where(eq(issuesTable.id, id));
+
+    return NextResponse.json({
+      message: 'Issue deleted successfully!',
+    });
+  } catch (error) {
+    console.error('Error deleting issue:', error);
+    return NextResponse.json(
+      { message: 'Failed to delete issue' },
       { status: 500 }
     );
   }
