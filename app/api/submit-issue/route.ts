@@ -1,77 +1,57 @@
-import { db } from '@/db'; // Importing the database connection
-import { issuesTable } from '@/db/schema'; // Importing the schema definition
 import { NextResponse } from 'next/server';
-import { eq } from 'drizzle-orm';
 
 export const dynamic = 'force-dynamic';
-export async function GET(req: Request) {
-  try {
-    // Fetching the issues from the database
-    const issues = await db.select().from(issuesTable);
 
-    // Return the fetched issues
-    return NextResponse.json({
-      message: 'Issues retrieved successfully!',
-      data: issues,
-    });
-  } catch (error) {
-    console.error('Error fetching issues:', error);
-    return NextResponse.json(
-      { message: 'Failed to retrieve issues' },
-      { status: 500 }
-    );
-  }
+// Handle preflight OPTIONS (for CORS)
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
 }
 
+// ✅ POST - Receive issue submission and forward to Replit
 export async function POST(req: Request) {
   try {
-    const body = await req.json(); // Assuming the body is JSON
+    const body = await req.json();
 
-    const { issueTitle, location, description, priority, contactName, contactEmail } = body;
-
-    // Insert the data into the database
-    const insertedIssue = await db.insert(issuesTable).values({
-      issueTitle,
-      location,
-      description,
-      priority,
-      contactName,
-      contactEmail,
-    });
-
-    // Return a success response
-    return NextResponse.json({
-      message: 'Issue submitted successfully!',
-      data: insertedIssue,
-    });
-  } catch (error) {
-    console.error('Error submitting issue:', error);
-    return NextResponse.json(
-      { message: 'Failed to submit issue' },
-      { status: 500 }
+    const replitResponse = await fetch(
+      'https://your-replit-url.replit.dev/submit_request.php',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      }
     );
-  }
-}
 
-export async function DELETE(req: Request) {
-  try {
-    const { id } = await req.json(); // Extracting ID from request body
-
-    if (!id) {
-      return NextResponse.json({ message: 'ID is required' }, { status: 400 });
+    const responseText = await replitResponse.text();
+    if (!replitResponse.ok) {
+      throw new Error(`Replit error: ${responseText}`);
     }
 
-    // Delete the issue from the database
-    await db.delete(issuesTable).where(eq(issuesTable.id, id));
-
-    return NextResponse.json({
-      message: 'Issue deleted successfully!',
-    });
-  } catch (error) {
-    console.error('Error deleting issue:', error);
-    return NextResponse.json(
-      { message: 'Failed to delete issue' },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: 'Issue submitted successfully!' });
+  } catch (error: unknown) {
+    const err = error as Error;
+    console.error('POST error:', err.message);
+    return NextResponse.json({ message: 'Failed to submit issue' }, { status: 500 });
   }
 }
+
+// ✅ GET - Fetch issues from Supabase
+export async function GET() {
+  try {
+    const supabaseResponse = await fetch('https://2a6115a6-15f0-45fe-8fcb-921a5c3d92a4-00-ebruw8jg02ip.janeway.replit.dev/fetch_issues.php');
+    const json = await supabaseResponse.json();
+
+    return NextResponse.json({ data: json }); // your frontend expects `data`
+  } catch (error: unknown) {
+    const err = error as Error;
+    console.error('GET error:', err.message);
+    return NextResponse.json({ message: 'Failed to fetch issues' }, { status: 500 });
+  }
+}
+

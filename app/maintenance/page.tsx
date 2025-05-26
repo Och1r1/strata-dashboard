@@ -126,7 +126,9 @@ function MaintenanceRequestCard({ request, onDelete }: { request: MaintenanceReq
               request.priority === "high" ? "destructive" : request.priority === "medium" ? "default" : "outline"
             }
           >
-            {request.priority.charAt(0).toUpperCase() + request.priority.slice(1)} Priority
+            {request.priority
+              ? request.priority.charAt(0).toUpperCase() + request.priority.slice(1) + ' Priority'
+              : 'Unknown Priority'}
           </Badge>
         </div>
         <CardDescription>
