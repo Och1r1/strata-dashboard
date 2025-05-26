@@ -10,12 +10,12 @@ import { ClipboardList } from "lucide-react";
 
 interface MaintenanceRequest {
   id: string;
-  issueTitle: string;
+  issue_title: string;
   location: string;
   created_at: string;
   description: string;
   priority: "low" | "medium" | "high";
-  contactName: string;
+  contact_name: string;
   notes?: string;
 }
 
@@ -119,7 +119,7 @@ function MaintenanceRequestCard({ request, onDelete }: { request: MaintenanceReq
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <CardTitle className="text-xl">{request.issueTitle}</CardTitle>
+            <CardTitle className="text-xl">{request.issue_title}</CardTitle>
           </div>
           <Badge
             variant={
@@ -132,7 +132,7 @@ function MaintenanceRequestCard({ request, onDelete }: { request: MaintenanceReq
           </Badge>
         </div>
         <CardDescription>
-          {request.location ? request.location : "No unit specified"} • Submitted on {formattedDate} by {request.contactName}
+          {request.location ? request.location : "No unit specified"} • Submitted on {formattedDate} by {request.contact_name}
         </CardDescription>
       </CardHeader>
       <CardContent>

@@ -1,94 +1,48 @@
-import { Users } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+// ✅ 1. React page (Edited to fetch from DB)
+"use client";
+
+import { useEffect, useState } from "react";
+import { Users } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 interface CommitteeMember {
-  id: string
-  name: string
-  role: string
-  unit: string
-  email: string
-  phone: string
-  term: string
-  avatarUrl?: string
-  initials: string
+  id: string;
+  name: string;
+  role: string;
+  unit: string;
+  email: string;
+  phone: string;
+  term: string;
+  avatarUrl?: string;
+  initials: string;
 }
 
-const committeeMembers: CommitteeMember[] = [
-  {
-    id: "1",
-    name: "Sarah Johnson",
-    role: "Chairperson",
-    unit: "Unit 301",
-    email: "sarah.johnson@example.com",
-    phone: "(555) 123-4567",
-    term: "2024-2026",
-    initials: "SJ",
-  },
-  {
-    id: "2",
-    name: "Michael Chen",
-    role: "Secretary",
-    unit: "Unit 205",
-    email: "michael.chen@example.com",
-    phone: "(555) 234-5678",
-    term: "2023-2025",
-    initials: "MC",
-  },
-  {
-    id: "3",
-    name: "David Wilson",
-    role: "Treasurer",
-    unit: "Unit 412",
-    email: "david.wilson@example.com",
-    phone: "(555) 345-6789",
-    term: "2024-2026",
-    initials: "DW",
-  },
-  {
-    id: "4",
-    name: "Emma Rodriguez",
-    role: "Member",
-    unit: "Unit 107",
-    email: "emma.rodriguez@example.com",
-    phone: "(555) 456-7890",
-    term: "2023-2025",
-    initials: "ER",
-  },
-  {
-    id: "5",
-    name: "James Taylor",
-    role: "Member",
-    unit: "Unit 508",
-    email: "james.taylor@example.com",
-    phone: "(555) 567-8901",
-    term: "2024-2026",
-    initials: "JT",
-  },
-  {
-    id: "6",
-    name: "Olivia Kim",
-    role: "Member",
-    unit: "Unit 215",
-    email: "olivia.kim@example.com",
-    phone: "(555) 678-9012",
-    term: "2023-2025",
-    initials: "OK",
-  },
-  {
-    id: "7",
-    name: "Robert Garcia",
-    role: "Member",
-    unit: "Unit 403",
-    email: "robert.garcia@example.com",
-    phone: "(555) 789-0123",
-    term: "2024-2026",
-    initials: "RG",
-  },
-]
-
 export default function CommitteePage() {
+  const [members, setMembers] = useState<CommitteeMember[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchCommittee = async () => {
+      try {
+        const res = await fetch("/api/committee-members");
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Failed to load committee members");
+        setMembers(data.data);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCommittee();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
+
   return (
     <div>
       <div className="flex items-center gap-2 mb-6">
@@ -102,7 +56,7 @@ export default function CommitteePage() {
       </p>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {committeeMembers.map((member) => (
+        {members.map((member) => (
           <Card key={member.id}>
             <CardHeader className="flex flex-row items-center gap-4 pb-2">
               <Avatar className="h-12 w-12">
@@ -136,6 +90,5 @@ export default function CommitteePage() {
         ))}
       </div>
     </div>
-  )
+  );
 }
-

@@ -16,7 +16,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 const formSchema = z.object({
-  issueTitle: z.string().min(2, {
+  issue_title: z.string().min(2, {
     message: "Issue title must be at least 2 characters.",
   }),
   location: z.string().min(2, {
@@ -28,10 +28,10 @@ const formSchema = z.object({
   priority: z.string().min(1, {
     message: "Please select a priority level.",
   }),
-  contactName: z.string().min(2, {
+  contact_name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
   }),
-  contactEmail: z.string().email({
+  contact_email: z.string().email({
     message: "Please enter a valid email address.",
   }).optional(),
 })
@@ -46,12 +46,12 @@ export default function IssueReportPage() {
   const form = useForm<IssueFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      issueTitle: "",
+      issue_title: "",
       location: "",
       description: "",
       priority: "",
-      contactName: "",
-      contactEmail: "",
+      contact_name: "",
+      contact_email: "",
     },
   })
 
@@ -126,7 +126,7 @@ export default function IssueReportPage() {
               <form method="POST" action="/submit-issue" onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField
                   control={form.control}
-                  name="issueTitle"
+                  name="issue_title"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Issue Title</FormLabel>
@@ -191,7 +191,7 @@ export default function IssueReportPage() {
 
                 <FormField
                   control={form.control}
-                  name="contactName"
+                  name="contact_name"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Contact Name</FormLabel>
@@ -205,7 +205,7 @@ export default function IssueReportPage() {
 
                 <FormField
                   control={form.control}
-                  name="contactEmail"
+                  name="contact_email"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Contact Email</FormLabel>
