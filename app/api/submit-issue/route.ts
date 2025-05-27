@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     const replitResponse = await fetch(
-      'https://your-replit-url.replit.dev/submit_request.php',
+      'https://2a6115a6-15f0-45fe-8fcb-921a5c3d92a4-00-ebruw8jg02ip.janeway.replit.dev/submit_request.php',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
