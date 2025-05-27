@@ -55,3 +55,30 @@ export async function GET() {
   }
 }
 
+// ✅ DELETE - Forward delete to PHP backend
+export async function DELETE(req: Request) {
+  try {
+    const body = await req.json();
+    const { id } = body;
+
+    const replitResponse = await fetch(
+      'https://2a6115a6-15f0-45fe-8fcb-921a5c3d92a4-00-ebruw8jg02ip.janeway.replit.dev/delete_request.php',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      }
+    );
+
+    const responseText = await replitResponse.text();
+    if (!replitResponse.ok) {
+      throw new Error(`Delete failed: ${responseText}`);
+    }
+
+    return NextResponse.json({ message: 'Request deleted successfully' });
+  } catch (error: unknown) {
+    const err = error as Error;
+    console.error('DELETE error:', err.message);
+    return NextResponse.json({ message: 'Failed to delete issue' }, { status: 500 });
+  }
+}

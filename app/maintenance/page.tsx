@@ -98,12 +98,15 @@ function MaintenanceRequestCard({ request, onDelete }: { request: MaintenanceReq
     try {
       const response = await fetch(`/api/submit-issue`, {
         method: "DELETE",
-        body: JSON.stringify({ id: request.id }),
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: request.id }),
       });
 
+      const text = await response.text();
+      console.log("DELETE response:", text); // 👈 Add this for debugging
+
       if (response.ok) {
-        onDelete(request.id);
+        onDelete(request.id); // Remove from local state
       } else {
         console.error("Failed to delete request");
       }
